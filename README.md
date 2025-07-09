@@ -22,7 +22,7 @@
 ### Cloning the repository
 
 ```shell
-git clone https://github.com/iprime2/cms-bussiness
+git clone https://github.com/MeAkash77/Bussiness-Management-System.git
 ```
 
 ### Install packages
