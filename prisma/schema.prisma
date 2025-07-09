@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String @unique
+  image     String
+  password  String
+  isAdmin   Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
+
+model Creditor{
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  firmName  String @unique
+  ownerName String
+  panNumber Int @unique
+  phone     Int
+  address   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  purchase Purchase[] 
+}
+
+model Debitor{
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  firmName  String @unique
+  ownerName String
+  panNumber Int @unique
+  phone     Int
+  address   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sales Sales[]
+}
+
+
+model Product{
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      String @unique
+  weight    Int
+  price     Int
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt 
+
+  purchase Purchase[]
+  sales Sales[]
+}
+
+
+model Purchase{
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  quantity        Int
+  price           Int
+  pricePaid       Int
+  totalAmount     Int
+  totalWeight     Int
+  paid            Boolean
+  paidThrough     String
+  productId       String @db.ObjectId
+  creditorId      String @db.ObjectId
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id])
+  creditor Creditor @relation(fields: [creditorId], references: [id]) 
+}
+
+model Sales{
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  quantity        Int
+  price           Int
+  pricePaid       Int
+  totalAmount     Int
+  totalWeight     Int
+  paid            Boolean
+  paidThrough     String
+  debitorId       String @db.ObjectId
+  productId       String @db.ObjectId
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+
+  product Product @relation(fields: [productId], references: [id])
+  debitor Debitor @relation(fields: [debitorId], references: [id])
+}
+
