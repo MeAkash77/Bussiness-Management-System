@@ -1,6 +1,6 @@
 # Full Stack Business Management System with Next.js 13, App Router, React, Shadcn UI, Tailwind, Prisma, NoSQL, MongoDB and NextAuth 2023
 
-#### https://bambam-bms.vercel.app
+#### https://bussiness-management-system-seven.vercel.app/
 
 ### Features:
 
